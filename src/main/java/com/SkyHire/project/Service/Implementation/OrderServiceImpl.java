@@ -1,16 +1,18 @@
 package com.SkyHire.project.Service.Implementation;
 
+import com.SkyHire.project.Entity.Cart;
 import com.SkyHire.project.Entity.Order;
+import com.SkyHire.project.Entity.Product;
 import com.SkyHire.project.Repository.OrderRepo;
+import com.SkyHire.project.Repository.ProductRepo;
 import com.SkyHire.project.Service.OrderService;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -20,6 +22,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderRepo orderRepo;
+    @Autowired
+    private ProductRepo productRepo;
     @Override
     public List<Order> getAllOrder(Long userID) {
 
@@ -30,9 +34,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional(rollbackOn = Exception.class)
-    public Order addOrder(Order order) {
 
+    public Order addOrder(Cart cart) {
+
+        Product product=productRepo.findById(cart.getProductID()).orElseThrow();
+
+        Order order =new Order();
+
+        order.setDateBought(new Date());
+        order.setTotal(product.getPrice());
+        order.setUserID(cart.getUserID());
 
         return orderRepo.save(order);
     }

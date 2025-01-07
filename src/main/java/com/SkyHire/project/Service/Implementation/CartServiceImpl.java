@@ -1,8 +1,10 @@
 package com.SkyHire.project.Service.Implementation;
 
 import com.SkyHire.project.Entity.Cart;
+import com.SkyHire.project.Entity.Order;
 import com.SkyHire.project.Entity.Product;
 import com.SkyHire.project.Repository.CartRepo;
+import com.SkyHire.project.Repository.OrderRepo;
 import com.SkyHire.project.Repository.ProductRepo;
 import com.SkyHire.project.Service.CartService;
 import jakarta.transaction.Transactional;
@@ -26,6 +28,9 @@ public class CartServiceImpl implements CartService {
     @Autowired
     private ProductRepo productRepo;
 
+    @Autowired
+    private OrderServiceImpl orderServiceImpl;
+
     @Override
     public Optional<Cart> getCart(Long userID) {
         return cartRepo.findById(userID);
@@ -33,20 +38,26 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional(rollbackOn = Exception.class)
-    public Cart addCartItem(Long userID,Long productID) {
-
-        Cart cart=new Cart(userID,productID);
-
+    public Cart addCartItem(Cart cart) {
         return cartRepo.save(cart);
     }
 
     @Override
     @Transactional(rollbackOn = Exception.class)
     public void deleteCart(Long userID) {
-
-
         cartRepo.deleteById(userID);
 
+    }
 
+    @Override
+    @Transactional(rollbackOn = Exception.class)
+    public Order checkout(Long userID) {
+
+        Cart cartToDelete=cartRepo.findById(userID).orElseThrow();
+       Order newOrder= orderServiceImpl.addOrder(cartToDelete);
+
+       cartRepo.delete(cartToDelete);
+
+        return newOrder;
     }
 }

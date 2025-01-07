@@ -1,5 +1,6 @@
 package com.SkyHire.project.Service;
 
+import com.SkyHire.project.Entity.Cart;
 import com.SkyHire.project.Entity.Order;
 
 import java.util.List;
@@ -9,8 +10,12 @@ public interface OrderService  {
 
     List<Order> getAllOrder(Long userID);
 
-    Order addOrder(Order order);
+    Order addOrder(Cart cart);
 
     Optional<Order> getOrder(Long orderID);
+
+
+
+
 
 }

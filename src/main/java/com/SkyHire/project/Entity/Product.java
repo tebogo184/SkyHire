@@ -1,10 +1,13 @@
 package com.SkyHire.project.Entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.extern.apachecommons.CommonsLog;
 
 @Entity
 @Table(name = "Product")
+@Data
+
 public class Product {
 
     @Id
