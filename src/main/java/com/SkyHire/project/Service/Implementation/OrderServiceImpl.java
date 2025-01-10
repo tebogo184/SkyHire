@@ -6,8 +6,6 @@ import com.SkyHire.project.Entity.Product;
 import com.SkyHire.project.Repository.OrderRepo;
 import com.SkyHire.project.Repository.ProductRepo;
 import com.SkyHire.project.Service.OrderService;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,14 +14,17 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class OrderServiceImpl implements OrderService {
 
-    @Autowired
-    private OrderRepo orderRepo;
-    @Autowired
-    private ProductRepo productRepo;
+    private final OrderRepo orderRepo;
+    private final ProductRepo productRepo;
+
+    public OrderServiceImpl(OrderRepo orderRepo, ProductRepo productRepo) {
+        this.orderRepo = orderRepo;
+        this.productRepo = productRepo;
+    }
+
     @Override
     public List<Order> getAllOrder(Long userID) {
 

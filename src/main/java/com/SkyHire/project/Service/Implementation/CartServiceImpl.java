@@ -8,28 +8,28 @@ import com.SkyHire.project.Repository.OrderRepo;
 import com.SkyHire.project.Repository.ProductRepo;
 import com.SkyHire.project.Service.CartService;
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+
+
 public class CartServiceImpl implements CartService {
 
-    @Autowired
-    private CartRepo cartRepo;
+    private final CartRepo cartRepo;
 
-    @Autowired
-    private ProductRepo productRepo;
+    private final ProductRepo productRepo;
 
-    @Autowired
-    private OrderServiceImpl orderServiceImpl;
+
+    private final OrderServiceImpl orderServiceImpl;
+
+    public CartServiceImpl(CartRepo cartRepo, ProductRepo productRepo, OrderServiceImpl orderServiceImpl) {
+        this.cartRepo = cartRepo;
+        this.productRepo = productRepo;
+        this.orderServiceImpl = orderServiceImpl;
+    }
 
     @Override
     public Optional<Cart> getCart(Long userID) {

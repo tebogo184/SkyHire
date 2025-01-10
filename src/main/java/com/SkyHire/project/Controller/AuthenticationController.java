@@ -1,9 +1,8 @@
 package com.SkyHire.project.Controller;
 
 import com.SkyHire.project.Entity.UserEntity;
-import com.SkyHire.project.Repository.UserRepo;
-import com.SkyHire.project.Service.AuthenticationService;
-import org.springframework.http.HttpStatus;
+import com.SkyHire.project.Service.Implementation.AuthenticationServiceImpl;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,9 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AuthenticationController {
 
-    private final AuthenticationService authService;
 
-    AuthenticationController(AuthenticationService authService){
+    private final AuthenticationServiceImpl authService;
+
+    AuthenticationController(AuthenticationServiceImpl authService){
         this.authService=authService;
     }
     @PostMapping("/register")
