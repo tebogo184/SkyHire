@@ -13,4 +13,6 @@ public interface ProductService {
     List<Product> addProduct(Product product);
 
     List<Product> deleteProduct(Long productID);
+
+    Product getProductByID(Long productID) throws Exception;
 }

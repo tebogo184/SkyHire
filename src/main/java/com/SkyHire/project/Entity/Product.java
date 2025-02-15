@@ -33,8 +33,20 @@ public class Product {
     @Column(name="isAvailable",nullable = false)
     private boolean isAvailable;
 
+    @Column(name = "includes", nullable = false, columnDefinition = "TEXT")
+    private String includes;
 
+    public boolean isAvailable() {
+        return isAvailable;
+    }
 
+    public String getIncludes() {
+        return includes;
+    }
+
+    public void setIncludes(String includes) {
+        this.includes = includes;
+    }
 
     public boolean getIsAvailable() {
         return isAvailable;

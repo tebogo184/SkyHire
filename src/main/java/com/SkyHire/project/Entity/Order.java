@@ -3,13 +3,14 @@ package com.SkyHire.project.Entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Positive;
 
 
 import java.util.Date;
 
 @Entity
-@Table(name = "Order")
+@Table(name = "order_entity")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +27,24 @@ public class Order {
     private float total;
 
     @NotNull
-    private Date  dateBought;
+    private Date  startDate;
+
+    @NotNull
+    private Date endDate;
+
+    @NotNull
+    private boolean isReturned=false;
+
+    @Null
+    private String Address;
+
+    public String getAddress() {
+        return Address;
+    }
+
+    public void setAddress(String address) {
+        Address = address;
+    }
 
     public Long getOrderID() {
         return orderID;
@@ -40,12 +58,29 @@ public class Order {
         return total;
     }
 
-    public Date getDateBought() {
-        return dateBought;
+
+    public boolean isReturned() {
+        return isReturned;
     }
 
-    public void setDateBought(Date dateBought) {
-        this.dateBought = dateBought;
+    public void setReturned(boolean returned) {
+        isReturned = returned;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
     public void setTotal(float total) {

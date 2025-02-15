@@ -3,12 +3,20 @@ package com.SkyHire.project.Service.Implementation;
 import com.SkyHire.project.Entity.Role;
 import com.SkyHire.project.Entity.UserDTO;
 import com.SkyHire.project.Entity.UserEntity;
+import com.SkyHire.project.Entity.UserRequestDTO;
+import com.SkyHire.project.ExceptionHandle.ResourceNotFoundException;
 import com.SkyHire.project.Repository.UserRepo;
 import com.SkyHire.project.Service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,11 +27,7 @@ import java.util.Optional;
 
 
 @Service
-public class AuthenticationServiceImpl implements AuthenticationService, UserDetailsService {
-
-
-
-
+public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final AuthenticationManager authenticationManager;
     private final UserRepo userRepo;
@@ -38,10 +42,16 @@ public class AuthenticationServiceImpl implements AuthenticationService, UserDet
     }
 
     @Override
-    public void register(UserEntity user) {
+    public void register(UserRequestDTO userRequestDTO) {
 
+        UserEntity user=new UserEntity();
+
+        user.setFirstName(userRequestDTO.getFirstName());
+        user.setSurname(userRequestDTO.getSurname());
+        user.setEmail(userRequestDTO.getEmail());
+        user.setPhoneNumber(userRequestDTO.getPhoneNumber());
         user.setRole(Role.CUSTOMER);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(userRequestDTO.getPassword()));
         userRepo.save(user);
 
     }
@@ -49,25 +59,16 @@ public class AuthenticationServiceImpl implements AuthenticationService, UserDet
     @Override
     public UserDTO login(UserEntity user) {
 
-        System.out.println("*********************About to authenticate user:+"+":"+user.getEmail()+user.getPassword()+"******************");
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword()));
-        System.out.println("*********************just finished authentication******************");
+       authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword()));
 
         Optional<UserEntity> userEntity= userRepo.findByEmail(user.getEmail());
-        System.out.println("*********************about to find the user entity from the repo******************");
 
-       if(userEntity.isPresent()){
-           System.out.println("************User Entity is availble  **************");
-           return userDTO.converToDTO(userEntity.get());
-       }
-       throw new RuntimeException("Username does not exist");
-
-
-
+        if(userEntity.isPresent()){
+            return userDTO.converToDTO(userEntity.get());
+        }else {
+            throw new ResourceNotFoundException("User does not exist");
+        }
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepo.findByEmail(username).orElseThrow(()->new UsernameNotFoundException("Failed to find user name"));
-    }
+
 }

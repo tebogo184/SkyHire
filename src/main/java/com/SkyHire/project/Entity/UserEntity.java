@@ -1,6 +1,7 @@
 package com.SkyHire.project.Entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Size;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -33,22 +34,36 @@ public class UserEntity  implements UserDetails {
 
     @Column(name = "password", nullable = false)
     private String password;
+    @Column(name = "idNumber", nullable = true)
+    private String idNumber;
 
     @Enumerated
     private Role role;
 
-    UserEntity(){}
 
-    UserEntity(Long userID,String firstName,String surname,String email,String phoneNumber,String password){
+
+
+   
+
+   public UserEntity(){}
+
+   public UserEntity(Long userID,String firstName,String surname,String email,String phoneNumber,String password){
         this.userID=userID;
         this.firstName=firstName;
         this.surname= surname;
         this.email=email;
         this.phoneNumber=phoneNumber;
         this.password=password;
+        
 
     }
+    public String getIdNumber() {
+        return idNumber;
+    }
 
+    public void setIdNumber(String idNumber) {
+        this.idNumber = idNumber;
+    }
     public Role getRole() {
         return role;
     }

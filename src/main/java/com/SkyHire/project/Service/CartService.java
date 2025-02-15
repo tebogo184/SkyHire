@@ -8,13 +8,13 @@ import java.util.Optional;
 
 public interface CartService {
 
-    Optional<Cart> getCart(Long userID);
+    Cart getCart(Long userID);
 
     Cart addCartItem(Cart cart);
 
     void deleteCart(Long userID);
 
-    Order checkout(Long userID);
+
 
 
 
