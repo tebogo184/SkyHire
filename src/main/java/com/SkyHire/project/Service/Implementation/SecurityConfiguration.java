@@ -76,7 +76,7 @@ public class SecurityConfiguration {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration cors = new CorsConfiguration();
-        cors.setAllowedOrigins(List.of("http://localhost:3000")); // Allow all origins for debugging
+        cors.setAllowedOrigins(List.of("http://localhost:3000","http://localhost:8081")); // Allow all origins for debugging
         cors.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         cors.setAllowCredentials(true);
         cors.setAllowedHeaders(List.of("Authorization", "Content-Type"));
