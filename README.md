@@ -7,7 +7,7 @@ The project was developed to demonstrate practical software engineering skills, 
 
 ---
 
-## 📌 Project Overview
+##  Project Overview
 
 SkyHire provides the backend foundation for an online shopping platform, handling:
 
